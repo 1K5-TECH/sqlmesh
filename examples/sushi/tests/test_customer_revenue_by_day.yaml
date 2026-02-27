@@ -58,6 +58,7 @@ test_customer_revenue_by_day:
         revenue: 26.1
         country code: 0
         event_date: 2022-01-01
+        cancelled_date: 2022-01-01
   vars:
     start: 2022-01-01
     end: 2022-01-01

@@ -16,6 +16,7 @@ test_customer_revenue_lifetime:
       rows:
         - id: 1
           customer_id: 123
+          end_ts: 946771200
           event_date: 2000-01-02
   outputs:
     query:
@@ -23,5 +24,6 @@ test_customer_revenue_lifetime:
         - customer_id: 123
           revenue: 3.99
           event_date: 2000-01-02
+          cancelled_date: 2000-01-02
   vars:
     end: 2000-01-02
