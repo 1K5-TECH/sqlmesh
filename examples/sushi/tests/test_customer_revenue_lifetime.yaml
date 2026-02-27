@@ -18,12 +18,18 @@ test_customer_revenue_lifetime:
           customer_id: 123
           end_ts: 946771200
           event_date: 2000-01-02
+    sushi.customer_revenue_lifetime:
+      rows:
+        - customer_id: 123
+          revenue: 10.0
+          event_date: 2000-01-01
+          cancelled_date: 2000-01-03
   outputs:
     query:
       rows:
         - customer_id: 123
-          revenue: 3.99
+          revenue: 13.99
           event_date: 2000-01-02
-          cancelled_date: 2000-01-02
+          cancelled_date: 2000-01-03
   vars:
     end: 2000-01-02

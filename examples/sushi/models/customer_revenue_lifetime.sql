@@ -58,7 +58,11 @@ SELECT
   COALESCE(it.customer_id, prev_total.customer_id) AS customer_id, /* Customer id */
   COALESCE(it.revenue, 0) + COALESCE(prev_total.revenue, 0) AS revenue, /* Lifetime revenue from this customer */
   @end_date AS event_date, /* End date of the lifetime calculation */
-  COALESCE(it.cancelled_date, prev_total.cancelled_date) AS cancelled_date /* Cancellation date */
+  COALESCE(
+    GREATEST(it.cancelled_date, prev_total.cancelled_date),
+    it.cancelled_date,
+    prev_total.cancelled_date
+  ) AS cancelled_date /* Cancellation date */
 FROM incremental_total AS it
 FULL OUTER JOIN prev_total AS prev_total
   ON it.customer_id = prev_total.customer_id

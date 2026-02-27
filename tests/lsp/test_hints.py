@@ -58,8 +58,9 @@ def test_hints() -> None:
         start_line=0,
         end_line=9999,
     )
-    assert len(crbd_hints) == 1
+    assert len(crbd_hints) == 2
     assert crbd_hints[0].label == "::INT"
+    assert crbd_hints[1].label == "::DATE"
 
 
 @pytest.mark.fast
