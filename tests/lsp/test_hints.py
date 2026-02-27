@@ -45,10 +45,11 @@ def test_hints() -> None:
         start_line=0,
         end_line=9999,
     )
-    assert len(crl_hints) == 3
+    assert len(crl_hints) == 4
     assert crl_hints[0].label == "::INT"
     assert crl_hints[1].label == "::DOUBLE"
     assert crl_hints[2].label == "::DATE"
+    assert crl_hints[3].label == "::DATE"
 
     customer_revenue_by_day_uri = URI.from_path(customer_revenue_by_day_path)
     crbd_hints = get_hints(

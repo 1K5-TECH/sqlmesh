@@ -55,8 +55,8 @@ def test_find_references_for_model_usages():
         "orders": [(0, 0, 0, 0)],  # the start for the model itself
         "customers": [(30, 7, 30, 19), (44, 6, 44, 18)],  # FROM clause and WHERE clause
         "waiter_revenue_by_day": [(19, 5, 19, 17)],
-        "customer_revenue_lifetime": [(38, 7, 38, 19)],
-        "customer_revenue_by_day": [(33, 5, 33, 17)],
+        "customer_revenue_lifetime": [(40, 7, 40, 19)],
+        "customer_revenue_by_day": [(34, 5, 34, 17)],
         "latest_order": [(12, 5, 12, 17)],
     }
 

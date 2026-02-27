@@ -91,7 +91,9 @@ def test_data_diff(sushi_context_fixed_date, capsys, caplog):
     modified_model["query"] = (
         exp.select("*")
         .from_(model.query.subquery())
-        .union("select -1, 9999.00, 0, CAST('2023-01-31' AS DATE), 1, 1")
+        .union(
+            "select -1, 9999.00, 0, CAST('2023-01-31' AS DATE), CAST('2023-01-31' AS DATE), 1, 1"
+        )
     )
     modified_sqlmodel = SqlModel(**modified_model)
     sushi_context_fixed_date.upsert_model(modified_sqlmodel)
@@ -138,10 +140,10 @@ def test_data_diff(sushi_context_fixed_date, capsys, caplog):
     assert row_diff.partial_match_pct == 0.0
     assert row_diff.s_only_count == 0
     assert row_diff.t_only_count == 1
-    assert row_diff.sample.shape == (1, 12)
+    assert row_diff.sample.shape == (1, 14)
     assert row_diff.joined_sample.shape == (0, 2)
-    assert row_diff.s_sample.shape == (0, 6)
-    assert row_diff.t_sample.shape == (1, 6)
+    assert row_diff.s_sample.shape == (0, 7)
+    assert row_diff.t_sample.shape == (1, 7)
 
 
 def test_data_diff_decimals_on_float(sushi_context_fixed_date):

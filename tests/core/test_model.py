@@ -965,6 +965,7 @@ def test_column_descriptions(sushi_context, assert_exp_eq):
         "country code": "Customer country code, used for testing spaces",
         "revenue": "Revenue from orders made by this customer",
         "event_date": "Date",
+        "cancelled_date": "Cancellation date",
     }
 
     expressions = d.parse(

@@ -16,7 +16,8 @@ MODEL (
   columns (
     customer_id INT,
     revenue DOUBLE,
-    event_date DATE
+    event_date DATE,
+    cancelled_date DATE
   ),
   grain (customer_id, event_date),
 );
@@ -36,6 +37,7 @@ WITH order_total AS (
   SELECT
     o.customer_id::INT AS customer_id,
     SUM(ot.total)::DOUBLE AS revenue,
+    MAX(TO_TIMESTAMP(CAST(o.end_ts AS DOUBLE))::DATE) AS cancelled_date,
   FROM sushi.orders AS o
   LEFT JOIN order_total AS ot
     ON o.id = ot.order_id
@@ -46,7 +48,8 @@ WITH order_total AS (
 ), prev_total AS (
   SELECT
     crl.customer_id,
-    crl.revenue
+    crl.revenue,
+    crl.cancelled_date
   FROM sushi.customer_revenue_lifetime AS crl
   WHERE
     crl.event_date = @end_date - INTERVAL 1 DAY
@@ -54,7 +57,8 @@ WITH order_total AS (
 SELECT
   COALESCE(it.customer_id, prev_total.customer_id) AS customer_id, /* Customer id */
   COALESCE(it.revenue, 0) + COALESCE(prev_total.revenue, 0) AS revenue, /* Lifetime revenue from this customer */
-  @end_date AS event_date /* End date of the lifetime calculation */
+  @end_date AS event_date, /* End date of the lifetime calculation */
+  COALESCE(it.cancelled_date, prev_total.cancelled_date) AS cancelled_date /* Cancellation date */
 FROM incremental_total AS it
 FULL OUTER JOIN prev_total AS prev_total
   ON it.customer_id = prev_total.customer_id
